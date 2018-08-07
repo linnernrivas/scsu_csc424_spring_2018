@@ -1,0 +1,26 @@
+#!/bin/bash
+name="student"
+file="grade"
+
+function gpaConvert(){
+   case $1 in
+	F) echo "0.0";;
+	D) echo "1.0";;
+	C) echo "2.0";;
+	B) echo "3.0";;
+	A) echo "4.0";;
+   esac
+}
+
+while read -r line
+do
+    line=($line)
+    sum=0
+    for ((i=1;i<${#line[@]};i=$i+1))
+    do
+	score=$(gpaConvert ${line[$i]})
+	sum=$(echo "$sum+$score*3"|bc)
+    done
+    gpa=$(bc <<< "scale=2;$sum/((${#line[@]}-1)*3)")
+    echo "${line[0]}: $gpa"
+done < $file

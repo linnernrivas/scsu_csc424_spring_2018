@@ -1,0 +1,30 @@
+#!/bin/bash
+name="student"
+file="grade"
+
+if [ -e $file ];then
+   rm -f $file
+fi
+
+function genGrade(){
+   num=$(($RANDOM%5))
+   case $num in
+	0) echo "F";;
+	1) echo "D";;
+	2) echo "C";;
+	3) echo "B";;
+	4) echo "A";;
+   esac
+}
+
+for ((i=0;i<10;i=$i+1))
+do
+    #generate student name
+    line="student$i"
+    #generate grades
+    for ((j=0;j<10;j=$j+1))
+    do
+        line="$line $(genGrade)"
+    done
+    echo $line>>$file
+done
